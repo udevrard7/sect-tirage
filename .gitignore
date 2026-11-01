@@ -1,0 +1,16 @@
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Vercel
+.vercel/
+
+# Node (tests locaux uniquement)
+node_modules/
+
+# Secrets — jamais dans le dépôt
+.env
+.env.*
+*.pem
+*.key

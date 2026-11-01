@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tirage « Un serveur, une mission » — L3 Sécurité informatique</title>
+  <meta name="description" content="Tirage officiel en ligne des sujets du projet individuel : un module, un contexte métier et une contrainte technique par étudiant, sans remise et traçables.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2338bdf8' d='M12 2 4 5v6.5c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z'/%3E%3Cpath fill='%2307101a' d='M12 4.4 6 6.6v4.9c0 3.8 2.5 7.2 6 8.6 3.5-1.4 6-4.8 6-8.6V6.6z'/%3E%3Ctext x='12' y='13.8' font-family='monospace' font-size='6.5' font-weight='bold' fill='%2338bdf8' text-anchor='middle'%3EE7%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#section-tirage">Aller au tirage</a>
+
+  <header class="hero">
+    <div class="wrap">
+      <p class="kicker"><span id="txt-filiere"></span> · Session <span id="txt-session"></span></p>
+      <h1>Un serveur, <span class="accent">une mission</span></h1>
+      <p class="tagline">Tirage officiel des sujets du projet individuel&nbsp;: chaque étudiant reçoit une combinaison unique — un module, un contexte métier, une contrainte technique.</p>
+      <ul class="chips">
+        <li>7 modules · E1–E7</li>
+        <li>7 contextes métier</li>
+        <li>7 contraintes techniques</li>
+        <li><strong>7&nbsp;×&nbsp;7&nbsp;×&nbsp;7&nbsp;=&nbsp;343</strong> combinaisons</li>
+        <li>Projet individuel · <strong>60&nbsp;%</strong></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <noscript><p class="warn">Ce site nécessite JavaScript. Activez-le pour lancer le tirage.</p></noscript>
+
+    <section id="section-liste" class="card" aria-labelledby="titre-liste">
+      <h2 id="titre-liste"><span class="step" aria-hidden="true">1</span> Liste des étudiants</h2>
+      <p class="hint">Saisissez les noms des 7 étudiants. L'ordre de saisie est sans importance. Les noms restent dans ce navigateur&nbsp;: rien n'est envoyé sur un serveur.</p>
+      <div id="liste-etudiants" class="grid-etudiants"></div>
+      <p id="avertissement-noms" class="warn" hidden></p>
+    </section>
+
+    <section id="section-parametres" class="card" aria-labelledby="titre-parametres">
+      <h2 id="titre-parametres"><span class="step" aria-hidden="true">2</span> Paramètres</h2>
+      <label class="opt">
+        <input type="checkbox" id="opt-melanger" checked>
+        <span>Ordre d'appel aléatoire <span class="micro">— les résultats sont révélés dans un ordre tiré au sort, pas dans l'ordre de saisie</span></span>
+      </label>
+      <label class="opt">
+        <input type="checkbox" id="opt-animation" checked>
+        <span>Révéler les résultats un par un <span class="micro">— pour la projection en classe</span></span>
+      </label>
+    </section>
+
+    <section id="section-tirage" class="card centre" aria-labelledby="titre-tirage">
+      <h2 id="titre-tirage"><span class="step" aria-hidden="true">3</span> Tirage officiel</h2>
+      <p class="hint">Modules, contextes et contraintes sont attribués <strong>sans remise</strong>&nbsp;: aucun doublon dans la promotion. Les combinaisons techniquement infaisables sont écartées d'office.</p>
+      <button id="btn-tirage" class="btn-primary" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="8.3" cy="8.3" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.7" cy="8.3" r="1.15" fill="currentColor" stroke="none"/><circle cx="8.3" cy="15.7" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.7" cy="15.7" r="1.15" fill="currentColor" stroke="none"/></svg>
+        Lancer le tirage
+      </button>
+      <p class="micro">À lancer une seule fois, devant la promotion. Graine et empreinte SHA-256 conservées pour la traçabilité.</p>
+    </section>
+
+    <section id="section-resultats" class="card" hidden aria-labelledby="titre-resultats" aria-live="polite">
+      <h2 id="titre-resultats">Résultats du tirage</h2>
+      <p id="horodatage" class="micro"></p>
+      <div class="table-wrap">
+        <table id="table-tirage">
+          <thead>
+            <tr>
+              <th scope="col">N°</th>
+              <th scope="col">Étudiant·e</th>
+              <th scope="col">Module</th>
+              <th scope="col">Contexte métier</th>
+              <th scope="col">Contrainte technique</th>
+            </tr>
+          </thead>
+          <tbody id="corps-tirage"></tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button class="btn-ghost" id="btn-csv" type="button" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7.5 11.5 4.5 4.5 4.5-4.5"/><path d="M4.5 20h15"/></svg>
+          <span>Exporter en CSV</span>
+        </button>
+        <button class="btn-ghost" id="btn-print" type="button" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 13h10v7H7z"/></svg>
+          <span>Imprimer / PDF</span>
+        </button>
+        <button class="btn-ghost" id="btn-copy" type="button" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="lbl-copy">Copier le récapitulatif</span>
+        </button>
+        <button class="btn-ghost btn-danger" id="btn-relancer" type="button" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          <span>Refaire un tirage</span>
+        </button>
+      </div>
+      <div id="trace" class="trace" hidden></div>
+    </section>
+
+    <section id="section-regles" class="card" aria-labelledby="titre-regles">
+      <details>
+        <summary id="titre-regles">Règles de compatibilité et garanties d'équité</summary>
+        <h3>Combinaisons écartées d'office</h3>
+        <div class="table-wrap">
+          <table class="table-regles">
+            <thead>
+              <tr><th scope="col">Module</th><th scope="col">Contrainte</th><th scope="col">Motif</th></tr>
+            </thead>
+            <tbody id="corps-regles"></tbody>
+          </table>
+        </div>
+        <h3>Garanties d'équité</h3>
+        <ul class="liste-garanties">
+          <li>Attribution <strong>sans remise</strong> sur les trois axes&nbsp;: les 7 étudiants reçoivent des modules, des contextes et des contraintes tous distincts.</li>
+          <li>Aléatoire <strong>cryptographique</strong> (<code>crypto.getRandomValues</code>) puis dérivation déterministe (xorshift128) depuis une graine de 128&nbsp;bits.</li>
+          <li>La <strong>graine</strong> et l'<strong>empreinte SHA-256</strong> du résultat sont affichées et exportées&nbsp;: le tirage est rejouable à l'identique et infalsifiable.</li>
+          <li>Traitement 100&nbsp;% local&nbsp;: aucun nom, aucun résultat ne quitte le navigateur.</li>
+        </ul>
+        <p class="micro">Pour revérifier un tirage&nbsp;: <code>node tools/rejouer.js &lt;graine&gt; "Nom 1, Nom 2, …"</code> (voir README du dépôt).</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>« <span id="txt-projet"></span> » · <span id="txt-filiere-2"></span> — Site de tirage · Hébergement&nbsp;: Vercel · Code&nbsp;: <a href="https://github.com/udevrard7/sect-tirage" rel="noopener">github.com/udevrard7/sect-tirage</a></p>
+    <p class="micro">Aucune donnée collectée — tout se passe dans votre navigateur · © 2026 udevrard7</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
